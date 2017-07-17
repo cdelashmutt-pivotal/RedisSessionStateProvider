@@ -10,21 +10,16 @@ namespace RedisSessionStateProvider.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.InstanceId = ServerConfig.CloudFoundryApplication?.InstanceIndex.ToString() ?? "N/A";
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult UpdateSession(String sessionData)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            ViewBag.InstanceId = ServerConfig.CloudFoundryApplication?.InstanceIndex.ToString() ?? "N/A";
+            HttpContext.Session["StoredValue"] = sessionData;
+            return RedirectToAction("Index");
         }
     }
 }
